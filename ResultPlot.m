@@ -22,7 +22,7 @@ function varargout = ResultPlot(varargin)
 
 % Edit the above text to modify the response to help ResultPlot
 
-% Last Modified by GUIDE v2.5 26-Nov-2012 12:12:29
+% Last Modified by GUIDE v2.5 26-Nov-2012 20:10:17
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -52,12 +52,14 @@ function ResultPlot_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to ResultPlot (see VARARGIN)
 
-% Choose default command line output for ResultPlot
-handles.output = hObject;
 handles.in1=varargin{1}
 handles.in2=varargin{2}
 whos varargin
 whos in2
+
+% Choose default command line output for ResultPlot
+handles.output = hObject;
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -81,7 +83,8 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-set(handles.edit1,'String',handles.in2)
+set(handles.edit1,'String',handles.in1)
+
 
 function edit1_Callback(hObject, eventdata, handles)
 % hObject    handle to edit1 (see GCBO)
