@@ -31,7 +31,7 @@ for k=1:size(curve)
 end
 fclose(fid);
     
-staStrain=0.002:0.002:0.08;
+staStrain=0.02:0.002:0.08;
 staStress=interp1(curve(:,1),curve(:,2),staStrain);
 fid=fopen(['staticPoint.dat'],'w');
 for j=1:size(staStress')
