@@ -84,10 +84,10 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 b1
-set(handles.edit1,'String',num2str(round(yield)))
-setappdata(hObject,'a',yield)
+set(handles.edit1,'String',num2str(round(yield)));
+setappdata(hObject,'a',yield);
 handles.plotmenu{2}='准静态,反求结果';
-set(handles.popupmenu1,'String',handles.plotmenu)
+set(handles.popupmenu1,'String',handles.plotmenu);
 guidata(hObject, handles);
 
 function edit1_Callback(hObject, eventdata, handles)
@@ -119,6 +119,7 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 b21
 setappdata(hObject,'nvel',nvel)
+setappdata(hObject,'rate',rate)
 for vel=1:nvel
     for expr=1:2
         str=FileName{2*(vel-1)+expr};
@@ -129,11 +130,13 @@ for vel=1:nvel
     end
     str2=FileName{2*vel};
     index=findstr(str2,'-');
-    sf2=[str(1:index-1),'m/s,反求结果'];
-    handles.plotmenu{vel+2}=sf2;
+    sf2=[str(1:index-1),'m/s'];
+    plotlegend{vel}=sf2;
+    handles.plotmenu{vel+2}=[sf2,',反求结果'];
     set(handles.popupmenu1,'String',handles.plotmenu);
 end
 set(handles.uitable1,'Data',dynamicraw);
+setappdata(hObject,'plotlegend',plotlegend)
 b22
 
 % --- Executes on button press in pushbutton3.
@@ -141,7 +144,9 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-a=getappdata(handles.pushbutton1,'a')
+a=getappdata(handles.pushbutton1,'a');
+nvel=getappdata(handles.pushbutton2,'nvel');
+rate=getappdata(handles.pushbutton2,'rate');
 b3
 setappdata(hObject,'matparam',[round(a) round(bn(1))  roundn(bn(2),-3) roundn(c,-4)])
 set(handles.edit2,'String',num2str(round(a)))
@@ -314,10 +319,10 @@ function popupmenu1_Callback(hObject, eventdata, handles)
 % Hints: contents = get(hObject,'String') returns popupmenu1 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from popupmenu1
 
-% contents = get(hObject,'String')
 selectidx=get(hObject,'Value');
-% matparam=getappdata(handles.pushbutton3,'matparam')
-matparam=[771 1486 0.442 0.0061];
+rate=getappdata(handles.pushbutton2,'rate');
+matparam=getappdata(handles.pushbutton3,'matparam');
+plotlegend=getappdata(handles.pushbutton2,'plotlegend')
 epsilon_0=0.001;
 
 switch selectidx
@@ -347,10 +352,10 @@ switch selectidx
         strain12=dat12(:,1);
         stress12=dat12(:,2);
         strain=0:0.001:roundn(max(max(strain11(:,1)),max(strain12(:,1))),-3);
-        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(23/epsilon_0));
+        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(rate(1,3)/epsilon_0));
         axes(handles.axes1);
         plot(strain11,stress11,'r',strain12,stress12,'g',strain,stressinv,'b');
-        legend('0.1m/s实验1','0.1m/s实验2','0.1m/s反求',4);
+        legend([plotlegend{1},'实验1'],[plotlegend{1},'实验2'],[plotlegend{1},'反求'],4);
         xlabel('塑性应变');
         ylabel('应力(Mpa)');
     case 4
@@ -361,7 +366,7 @@ switch selectidx
         strain22=dat22(:,1);
         stress22=dat22(:,2);
         strain=0:0.001:roundn(max(max(strain21(:,1)),max(strain22(:,1))),-3);
-        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(23/epsilon_0));
+        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(rate(2,3)/epsilon_0));
         axes(handles.axes1);
         plot(strain21,stress21,'r',strain22,stress22,'g',strain,stressinv,'b');
         legend('2m/s实验1','2m/s实验2','2m/s反求',4);
@@ -375,7 +380,7 @@ switch selectidx
         strain32=dat32(:,1);
         stress32=dat32(:,2);
         strain=0:0.001:roundn(max(max(strain31(:,1)),max(strain32(:,1))),-3);
-        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(23/epsilon_0));
+        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(rate(3,3)/epsilon_0));
         axes(handles.axes1);
         plot(strain31,stress31,'r',strain32,stress32,'g',strain,stressinv,'b');
         legend('5m/s实验1','5m/s实验2','5m/s反求',4);
@@ -389,7 +394,7 @@ switch selectidx
         strain42=dat42(:,1);
         stress42=dat42(:,2);
         strain=0:0.001:roundn(max(max(strain41(:,1)),max(strain42(:,1))),-3);
-        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(23/epsilon_0));
+        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(rate(4,3)/epsilon_0));
         axes(handles.axes1);
         plot(strain41,stress41,'r',strain42,stress42,'g',strain,stressinv,'b');
         legend('10m/s实验1','10m/s实验2','10m/s反求',4);
@@ -403,7 +408,7 @@ switch selectidx
         strain52=dat52(:,1);
         stress52=dat52(:,2);
         strain=0:0.001:roundn(max(max(strain51(:,1)),max(strain52(:,1))),-3);
-        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(23/epsilon_0));
+        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(rate(5,3)/epsilon_0));
         axes(handles.axes1);
         plot(strain51,stress51,'r',strain52,stress52,'g',strain,stressinv,'b');
         legend('15m/s实验1','15m/s实验2','15m/s反求',4);
@@ -417,7 +422,7 @@ switch selectidx
         strain62=dat62(:,1);
         stress62=dat62(:,2);
         strain=0:0.001:roundn(max(max(strain61(:,1)),max(strain62(:,1))),-3);
-        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(23/epsilon_0));
+        stressinv=(matparam(1)+matparam(2)*power(strain,matparam(3)))*(1+matparam(4)*log(rate(6,3)/epsilon_0));
         axes(handles.axes1);
         plot(strain61,stress61,'r',strain62,stress62,'g',strain,stressinv,'b');
         legend('0.1m/s实验1','0.1m/s实验2','0.1m/s反求',4);

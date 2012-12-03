@@ -1,5 +1,5 @@
 
-
+% Function to caculate static parameter
 function f = staticfcn(x,a)
 data=load('staticPoint.dat');
 strain=data(:,1);

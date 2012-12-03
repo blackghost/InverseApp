@@ -27,7 +27,7 @@ for vel=1:nvel
         fclose(fidout);
     end
 end
-clear area dynamicraw dat time stress strain strainrate 
+clear area dynamicraw dat time stress strain strainrate i vel expr
 
 % Caculate the strainrates
 for vel=1:nvel
@@ -38,7 +38,5 @@ for vel=1:nvel
     end
     rate(vel,3)=(rate(vel,1)+rate(vel,2))/2;
 end
-rate=round(rate)
-clear dat
-
-% output strainrate to a file
+rate=round(rate);
+clear dat vel expr

@@ -1,5 +1,6 @@
 
 % Get static tensile result
+clc;
 [FileName,PathName] = uigetfile('*.csv','Select the excel-file of static tensile experiment');
 staticraw=importdata(FileName, ',', 2);
 dat=staticraw.data;
@@ -10,7 +11,7 @@ for i=1:size(dat)
     fprintf(fid,'%10.8f  %10.8f\n',strain(i),stress(i));
 end
 fclose(fid);
-clear staticraw dat strain stress
+clear FileName PathName staticraw dat strain stress i
 
 % Find the yield point
 a=load('preStatic.dat');
@@ -27,7 +28,7 @@ for x=yielda:yieldb
     y1=210000*(a(x,1)-0.002);
     y2=210000*(a(x+1,1)-0.002);
     if((a(x,2)-y1)*(a(x+1,2)-y2)<=0)
-        yield=a(x,2)+(a(x+1,2)-a(x,2))*abs(a(x,2)-y1)/(abs(a(x,2)-y1)+abs(a(x+1,2)-y2))
+        yield=a(x,2)+(a(x+1,2)-a(x,2))*abs(a(x,2)-y1)/(abs(a(x,2)-y1)+abs(a(x+1,2)-y2));
         break;
     end
 end
