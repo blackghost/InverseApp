@@ -1,4 +1,4 @@
-function f = dynamicfcn(x,a,bn,nvel,rate)
+function f = funcdynamicjc(x,a,bn,nvel,rate)
 
 epsilon_0=0.001;
 strain=(0.022:0.002:0.1)';

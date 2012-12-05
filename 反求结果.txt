@@ -1,1 +1,2 @@
-A=771, B=928, n=0.291, C=0.0086
+The Parameter of Johnson-Cook Model is:
+A=771, B=575, n=0.131, C=0.0097

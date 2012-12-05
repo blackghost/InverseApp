@@ -1,6 +1,6 @@
 
 % Function to caculate static parameter
-function f = staticfcn(x,a)
+function f = funcstaticjc(x,a)
 data=load('staticPoint.dat');
 strain=data(:,1);
 stress=data(:,2);

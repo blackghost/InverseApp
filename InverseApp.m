@@ -22,7 +22,7 @@ function varargout = InverseApp(varargin)
 
 % Edit the above text to modify the response to help InverseApp
 
-% Last Modified by GUIDE v2.5 27-Nov-2012 13:47:47
+% Last Modified by GUIDE v2.5 05-Dec-2012 16:13:34
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -147,14 +147,26 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 a=getappdata(handles.pushbutton1,'a');
 nvel=getappdata(handles.pushbutton2,'nvel');
 rate=getappdata(handles.pushbutton2,'rate');
+constitutive=get(handles.popupmenu2,'Value')
 b3
-setappdata(hObject,'matparam',[round(a) round(bn(1))  roundn(bn(2),-3) roundn(c,-4)])
-set(handles.edit2,'String',num2str(round(a)))
-set(handles.edit3,'String',num2str(round(bn(1))))
-set(handles.edit4,'String',num2str(roundn(bn(2),-3)))
-set(handles.edit5,'String',num2str(roundn(c,-4)))
-
-
+switch constitutive
+    case 1
+        disp('The Parameter of Johnson-Cook Model is:')
+        disp(['A=',num2str(a),', B=',num2str(bn(1)),', n=',num2str(bn(2)),', C=',num2str(c),'.'])
+        setappdata(hObject,'matparam',[round(a) round(bn(1))  roundn(bn(2),-3) roundn(c,-4)])
+        set(handles.edit2,'String',num2str(round(a)))
+        set(handles.edit3,'String',num2str(round(bn(1))))
+        set(handles.edit4,'String',num2str(roundn(bn(2),-3)))
+        set(handles.edit5,'String',num2str(roundn(c,-4)))
+    case 2
+        disp('The Parameter of Cowper-Symonds Model is:')
+        disp(['k=',num2str(bn(1)),', n=',num2str(bn(2)),', C=',num2str(c(1)),', P=',num2str(c(2)),'.'])
+        setappdata(hObject,'matparam',[round(bn(1))  roundn(bn(2),-3) round(c(1)) roundn(c(2),-3)])
+        set(handles.edit2,'String',num2str(round(bn(1))))
+        set(handles.edit3,'String',num2str(roundn(bn(2),-3)))
+        set(handles.edit4,'String',num2str(round(c(1))))
+        set(handles.edit5,'String',num2str(roundn(c(2),-3)))
+end
 
 function edit2_Callback(hObject, eventdata, handles)
 % hObject    handle to edit2 (see GCBO)
@@ -260,8 +272,16 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 matparam=getappdata(handles.pushbutton3,'matparam');
+constitutive=get(handles.popupmenu2,'Value')
 fid=fopen('反求结果.txt','w');
-fprintf(fid,'A=%d, B=%d, n=%.3f, C=%.4f\n',matparam(1),matparam(2),matparam(3),matparam(4));
+switch constitutive
+    case 1
+        fprintf(fid,'The Parameter of Johnson-Cook Model is:\r\n');
+        fprintf(fid,'A=%d, B=%d, n=%.3f, C=%.4f\n',matparam(1),matparam(2),matparam(3),matparam(4));
+    case 2
+        fprintf(fid,'The Parameter of Cowper-Symonds Model is:\r\n');
+        fprintf(fid,'k=%d, n=%.3f, C=%d, P=%.3f\n',matparam(1),matparam(2),matparam(3),matparam(4));
+end
 fclose(fid);
 
 % --- Executes on button press in pushbutton6.
@@ -279,6 +299,7 @@ set(handles.edit5,'String','0');
 set(handles.popupmenu1,'Value',1);
 handles.plotmenu{1}='选择要显示的结果';
 set(handles.popupmenu1,'String',handles.plotmenu);
+set(handles.popupmenu2,'Value',1)
 axes(handles.axes1);
 xl=get(handles.axes1,'XLim');
 yl=get(handles.axes1,'YLim');
@@ -322,7 +343,7 @@ function popupmenu1_Callback(hObject, eventdata, handles)
 selectidx=get(hObject,'Value');
 rate=getappdata(handles.pushbutton2,'rate');
 matparam=getappdata(handles.pushbutton3,'matparam');
-plotlegend=getappdata(handles.pushbutton2,'plotlegend')
+plotlegend=getappdata(handles.pushbutton2,'plotlegend');
 epsilon_0=0.001;
 
 switch selectidx
@@ -453,4 +474,41 @@ function axes1_CreateFcn(hObject, eventdata, handles)
 % axes(gca)
 % xlabel('Equivalent Plastic Strain')
 % ylabel('abc')
+
+
+
+% --- Executes on selection change in popupmenu2.
+function popupmenu2_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = get(hObject,'String') returns popupmenu2 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu2
+constitutive=get(hObject,'Value')
+switch constitutive
+    case 1
+        set(handles.text2,'String','A')
+        set(handles.text3,'String','B')
+        set(handles.text4,'String','n')
+        set(handles.text5,'String','C')
+    case 2
+        set(handles.text2,'String','k')
+        set(handles.text3,'String','n')
+        set(handles.text4,'String','C')
+        set(handles.text5,'String','P')
+end
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
 
