@@ -117,6 +117,18 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set(handles.popupmenu1,'Value',1);
+axes(handles.axes1);
+xl=get(handles.axes1,'XLim');
+yl=get(handles.axes1,'YLim');
+cla
+legend('off')
+set(handles.axes1,'XLim',xl);
+set(handles.axes1,'YLim',yl);
+set(handles.edit2,'String','0');
+set(handles.edit3,'String','0');
+set(handles.edit4,'String','0');
+set(handles.edit5,'String','0');
 b21
 setappdata(hObject,'nvel',nvel)
 setappdata(hObject,'rate',rate)
@@ -297,9 +309,9 @@ set(handles.edit3,'String','0');
 set(handles.edit4,'String','0');
 set(handles.edit5,'String','0');
 set(handles.popupmenu1,'Value',1);
-handles.plotmenu{1}='选择要显示的结果';
-set(handles.popupmenu1,'String',handles.plotmenu);
-set(handles.popupmenu2,'Value',1)
+% handles.plotmenu{1}='选择要显示的结果';
+% set(handles.popupmenu1,'String',handles.plotmenu);
+% set(handles.popupmenu2,'Value',1)
 axes(handles.axes1);
 xl=get(handles.axes1,'XLim');
 yl=get(handles.axes1,'YLim');
@@ -307,28 +319,6 @@ cla
 set(handles.axes1,'XLim',xl);
 set(handles.axes1,'YLim',yl);
 legend('off');
-
-% 
-% % --- Executes on slider movement.
-% function slider1_Callback(hObject, eventdata, handles)
-% % hObject    handle to slider1 (see GCBO)
-% % eventdata  reserved - to be defined in a future version of MATLAB
-% % handles    structure with handles and user data (see GUIDATA)
-% 
-% % Hints: get(hObject,'Value') returns position of slider
-% %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-% 
-% 
-% % --- Executes during object creation, after setting all properties.
-% function slider1_CreateFcn(hObject, eventdata, handles)
-% % hObject    handle to slider1 (see GCBO)
-% % eventdata  reserved - to be defined in a future version of MATLAB
-% % handles    empty - handles not created until after all CreateFcns called
-% 
-% % Hint: slider controls usually have a light gray background.
-% if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-%     set(hObject,'BackgroundColor',[.9 .9 .9]);
-% end
 
 
 % --- Executes on selection change in popupmenu1.
@@ -521,6 +511,18 @@ function popupmenu2_Callback(hObject, eventdata, handles)
 
 % Hints: contents = get(hObject,'String') returns popupmenu2 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from popupmenu2
+set(handles.edit2,'String','0');
+set(handles.edit3,'String','0');
+set(handles.edit4,'String','0');
+set(handles.edit5,'String','0');
+set(handles.popupmenu1,'Value',1);
+axes(handles.axes1);
+xl=get(handles.axes1,'XLim');
+yl=get(handles.axes1,'YLim');
+cla
+legend('off')
+set(handles.axes1,'XLim',xl);
+set(handles.axes1,'YLim',yl);
 constitutive=get(hObject,'Value')
 switch constitutive
     case 1

@@ -1,2 +1,2 @@
-The Parameter of Cowper-Symonds Model is:
-k=1247, n=0.050, C=6616, P=2.762
+The Parameter of Johnson-Cook Model is:
+A=771, B=757, n=0.220, C=0.0089
