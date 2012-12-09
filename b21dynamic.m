@@ -1,17 +1,19 @@
 
 % Preprocess the dynamic tensile result
 [FileName,PathName] = uigetfile('*.dat','Select all the dynamic tensile dat-file','MultiSelect', 'on');
+whos FileName
+whos PathName
 nvel=length(FileName)/2;
 for vel=1:nvel
     for expr=1:2
-        fidin=fopen(FileName{2*(vel-1)+expr},'r');
+        fidin=fopen([PathName,FileName{2*(vel-1)+expr}],'r');
         for i=1:16
             strline=fgets(fidin);
         end
         area=str2num(strline(13:21));
         fclose(fidin);
 
-        dynamicraw=importdata(FileName{2*(vel-1)+expr}, '\t', 54);
+        dynamicraw=importdata([PathName,FileName{2*(vel-1)+expr}], '\t', 54);
         dat=dynamicraw.data;
         time=dat(:,1);
         stress=dat(:,4)*1000/area;

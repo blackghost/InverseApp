@@ -1,8 +1,10 @@
 
 % Get static tensile result
 clc;
-[FileName,PathName] = uigetfile('*.csv','Select the excel-file of static tensile experiment');
-staticraw=importdata(FileName, ',', 2);
+[FileName,PathName] = uigetfile('*.csv','Select the excel-file of static tensile experiment')
+whos FileName
+whos PathName
+staticraw=importdata([PathName,FileName], ',', 2);
 dat=staticraw.data;
 strain=dat(:,3);
 stress=dat(:,4);

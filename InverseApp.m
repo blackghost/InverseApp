@@ -22,7 +22,7 @@ function varargout = InverseApp(varargin)
 
 % Edit the above text to modify the response to help InverseApp
 
-% Last Modified by GUIDE v2.5 05-Dec-2012 16:13:34
+% Last Modified by GUIDE v2.5 09-Dec-2012 20:53:50
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -83,7 +83,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-b1
+b1static
 set(handles.edit1,'String',num2str(round(yield)));
 setappdata(hObject,'a',yield);
 handles.plotmenu{2}='准静态,反求结果';
@@ -129,7 +129,7 @@ set(handles.edit2,'String','0');
 set(handles.edit3,'String','0');
 set(handles.edit4,'String','0');
 set(handles.edit5,'String','0');
-b21
+b21dynamic
 setappdata(hObject,'nvel',nvel)
 setappdata(hObject,'rate',rate)
 for vel=1:nvel
@@ -149,7 +149,7 @@ for vel=1:nvel
 end
 set(handles.uitable1,'Data',dynamicraw);
 setappdata(hObject,'plotlegend',plotlegend)
-b22
+b22filter
 
 % --- Executes on button press in pushbutton3.
 function pushbutton3_Callback(hObject, eventdata, handles)
@@ -160,7 +160,7 @@ a=getappdata(handles.pushbutton1,'a');
 nvel=getappdata(handles.pushbutton2,'nvel');
 rate=getappdata(handles.pushbutton2,'rate');
 constitutive=get(handles.popupmenu2,'Value')
-b3
+b3inverse
 switch constitutive
     case 1
         disp('The Parameter of Johnson-Cook Model is:')
@@ -548,5 +548,19 @@ function popupmenu2_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
+
+% --- Executes when user attempts to close figure1.
+function figure1_CloseRequestFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: delete(hObject) closes the figure
+delete(hObject);
+system('del dynamic* static* pre* filtered*');
+
 
 
