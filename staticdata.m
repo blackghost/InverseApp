@@ -1,13 +1,12 @@
+% Preprocess the static tensile result
 
-% Get static tensile result
 clc;
-[FileName,PathName] = uigetfile('*.csv','Select the excel-file of static tensile experiment')
-whos FileName
-whos PathName
+[FileName,PathName] = uigetfile('*.csv','Select the excel-file of static tensile experiment');
 staticraw=importdata([PathName,FileName], ',', 2);
 dat=staticraw.data;
 strain=dat(:,3);
 stress=dat(:,4);
+% Write strain,stress to preStatic.dat file
 fid=fopen('preStatic.dat','w');
 for i=1:size(dat)
     fprintf(fid,'%10.8f  %10.8f\n',strain(i),stress(i));

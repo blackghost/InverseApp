@@ -1,6 +1,17 @@
 function f = funcdynamiccs(x,bn,nvel,rate)
+% Function called by Multi-Objective Genetic Algorithm(gamultiobj) to inverse the parameter C,P of
+% Cowper-Symonds model
+%
+% INPUT
+% x          Design variable of gamultiobj
+% bn        Parameter k,n of Cowper-Symonds model
+% nvel      Number of experiment velocity 
+% rate      Strain-rate of dynamic tensile test 
+%
+% OUTPUT
+% f         Fitness of gamultiobj
 
-strain=(0.022:0.002:0.1)';
+strain=(0.022:0.002:0.1)';      % Inverse Interval
 
 exp11=load('dynamicPoint11.dat');
 exp12=load('dynamicPoint12.dat');

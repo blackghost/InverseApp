@@ -1,7 +1,8 @@
-
-% Filter
+% Ideal Low pass filter
 for vel=1:nvel
     for expr=1:2
+        
+        % FFT transformation 
         dat=load(['preDynamic',num2str(vel),num2str(expr),'.dat']);
         time=dat(:,1);
         strain=dat(:,2);
@@ -14,13 +15,14 @@ for vel=1:nvel
                 break;
             end
         end
-%         N=length(y);
         n=0:N-1;
         t=time(2)-time(1);
         f=n/t/N;
         ffty=fft(y,N);
         absffty=abs(ffty);
-%         plot(f,absffty)
+        
+        % Ideal Low pass filter,set high frequency magnitude to zero,then
+        % Inverse FFT transformation
         for iPoint=1:N/2
             if(absffty(iPoint)<=500)
                 ffty(iPoint:N-iPoint+2)=0i;
@@ -29,9 +31,8 @@ for vel=1:nvel
         end
         y2=real(ifft(ffty));
         stress=y2(1:length(y));
-%         absffty2=abs(ffty);
-%         figure(2)
-%         plot(f,absffty2)
+        
+        % Save filtered data to filtered*.dat file
         strain(1)=0;
         stress(1)=0;
         fidout=fopen(['filteredDynamic',num2str(vel),num2str(expr),'.dat'],'w');
@@ -39,10 +40,6 @@ for vel=1:nvel
             fprintf(fidout,'%10.8f  %10.8f\n',strain(iFile),stress(iFile));
         end
         fclose(fidout);
-%         figure(10*vel+expr)
-%         plot(y)
-%         hold on
-%         plot(stress,'r')
     end
 end
 clear vel expr dat time strain y i N n t f ffty absffty iPoint y2 stress iFile

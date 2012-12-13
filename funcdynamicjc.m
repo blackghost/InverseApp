@@ -1,7 +1,19 @@
 function f = funcdynamicjc(x,a,bn,nvel,rate)
+% Function called by Multi-Objective Genetic Algorithm(gamultiobj) to inverse the parameter C of
+% Johnson-Cook model
+%
+% INPUT
+% x          Design variable of gamultiobj
+% a          Parameter A of Johnson-Cook model
+% bn        Parameter B,n of Johnson-Cook model
+% nvel      Number of experiment velocity 
+% rate      Strain-rate of dynamic tensile test 
+%
+% OUTPUT
+% f          Fitness of gamultiobj
 
-epsilon_0=0.001;
-strain=(0.022:0.002:0.1)';
+epsilon_0=0.001;        % Parameter epsilon_0 of Johnson-Cook model
+strain=(0.022:0.002:0.1)';      % Inverse Interval
 
 exp11=load('dynamicPoint11.dat');
 exp12=load('dynamicPoint12.dat');

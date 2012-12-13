@@ -1,11 +1,10 @@
-
 % Preprocess the dynamic tensile result
 [FileName,PathName] = uigetfile('*.dat','Select all the dynamic tensile dat-file','MultiSelect', 'on');
-whos FileName
-whos PathName
-nvel=length(FileName)/2;
+nvel=length(FileName)/2;        % Get dynamic tensile velocity number
 for vel=1:nvel
     for expr=1:2
+        
+        % Get specimen area
         fidin=fopen([PathName,FileName{2*(vel-1)+expr}],'r');
         for i=1:16
             strline=fgets(fidin);
@@ -13,6 +12,7 @@ for vel=1:nvel
         area=str2num(strline(13:21));
         fclose(fidin);
 
+        % Write stress,strain,strainrate to preDynamic*.dat file
         dynamicraw=importdata([PathName,FileName{2*(vel-1)+expr}], '\t', 54);
         dat=dynamicraw.data;
         time=dat(:,1);

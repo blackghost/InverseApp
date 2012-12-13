@@ -1,6 +1,12 @@
-
-% Function to caculate static parameter
 function f = funcstaticcs(x)
+% Function called by Genetic Algorithm(ga) to inverse static parameter k,n of Cowper-Symonds Model
+%
+% INPUT
+% x          Design variable of ga
+%
+% OUTPUT
+% f          Fitness of ga
+
 data=load('staticPoint.dat');
 strain=data(:,1);
 stress=data(:,2);
